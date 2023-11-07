@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    static String arabicDigitsRegex = "[0-9]{1,2}";
-    static String romanDigitsRegex = "[IVX]{1,4}";
-    static String mathOperationRegex = "[/*+-]";
+    static final String ARAB_NUMBERS_REGEX = "[0-9]{1,2}";
+    static final String ROMAN_NUMBERS_REGEX = "[IVX]{1,4}";
+    static final String MATH_OPERATION_REGEX = "[/*+-]";
 
-    static Map<String, String> romanToArabicMap = new HashMap<>() {{
+    static final Map<String, String> ROMAN_TO_ARAB_MAP = new HashMap<>() {{
         put("I", "1");
         put("II", "2");
         put("III", "3");
@@ -55,7 +55,7 @@ public class Main {
         String mathOperation = splittedInput[1];
         String secondDigit = splittedInput[2];
 
-        if (!mathOperation.matches(mathOperationRegex)) {
+        if (!mathOperation.matches(MATH_OPERATION_REGEX)) {
             throw new Exception("Wrong math operation");
         }
 
@@ -73,22 +73,22 @@ public class Main {
     }
 
     static boolean isAcceptedRomanDigits(String value) throws Exception{
-        if (romanToArabicMap.containsKey(value) && value.matches(romanDigitsRegex)) {
+        if (ROMAN_TO_ARAB_MAP.containsKey(value) && value.matches(ROMAN_NUMBERS_REGEX)) {
             return true;
         }
         throw new Exception("Number is out of range");
     }
 
     static String getArabicDigit(String romanDigit){
-        return romanToArabicMap.get(romanDigit);
+        return ROMAN_TO_ARAB_MAP.get(romanDigit);
     }
 
     static boolean isAcceptedArabicNumber(String number) throws Exception{
-        if (number.matches(arabicDigitsRegex)) {
+        if (number.matches(ARAB_NUMBERS_REGEX)) {
             int numberValue = Integer.parseInt(number);
             return numberValue >= 1 && numberValue <= 10;
         }
-        throw new Exception("Numbers out of range");
+        throw new Exception("Number is out of range");
     }
 
     static String getResultOfMathOperation(String value1, String value2, String mathOperation) throws Exception{
@@ -104,10 +104,10 @@ public class Main {
         return String.valueOf(result);
         }
 
-        static String getRomanDigit(String value) throws Exception{
+    static String getRomanDigit(String value) throws Exception{
         int number = Integer.parseInt(value);
         if (number <= 0 || number > 100) {
-            throw new Exception("Result out of range");
+            throw new Exception("Result is out of range");
         }
 
         int[] arabicValues = {100, 90, 50, 40, 10, 9, 5, 4, 1};
