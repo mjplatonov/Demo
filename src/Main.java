@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    static final String ARAB_NUMBERS_REGEX = "[0-9]{1,2}";
+    static final String ARABIC_NUMBERS_REGEX = "[0-9]{1,2}";
     static final String ROMAN_NUMBERS_REGEX = "[IVX]{1,4}";
     static final String MATH_OPERATION_REGEX = "[/*+-]";
 
-    static final Map<String, String> ROMAN_TO_ARAB_MAP = new HashMap<>() {{
+    static final Map<String, String> ROMAN_TO_ARABIC_MAP = new HashMap<>() {{
         put("I", "1");
         put("II", "2");
         put("III", "3");
@@ -23,6 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter two numbers from 1 to 10 and math operation to get result (e.g. 1 + 2, VI / III)");
 
         try {
             while (true) {
@@ -64,31 +65,28 @@ public class Main {
             return getResultOfMathOperation(firstDigit, secondDigit, mathOperation);
         }
 
-        if (isAcceptedRomanDigits(firstDigit) && isAcceptedRomanDigits(secondDigit)) {
-            String result = getResultOfMathOperation(getArabicDigit(firstDigit), getArabicDigit(secondDigit), mathOperation);
+        if (isAcceptedRomanNumber(firstDigit) && isAcceptedRomanNumber(secondDigit)) {
+            String result = getResultOfMathOperation(getArabicNumber(firstDigit), getArabicNumber(secondDigit), mathOperation);
             return getRomanDigit(result);
         }
 
-        throw new Exception("Something went wrong");
+        throw new Exception("Wrong input numbers");
     }
 
-    static boolean isAcceptedRomanDigits(String value) throws Exception{
-        if (ROMAN_TO_ARAB_MAP.containsKey(value) && value.matches(ROMAN_NUMBERS_REGEX)) {
-            return true;
-        }
-        throw new Exception("Number is out of range");
+    static boolean isAcceptedRomanNumber(String value) {
+        return ROMAN_TO_ARABIC_MAP.containsKey(value) && value.matches(ROMAN_NUMBERS_REGEX);
     }
 
-    static String getArabicDigit(String romanDigit){
-        return ROMAN_TO_ARAB_MAP.get(romanDigit);
+    static String getArabicNumber(String romanDigit){
+        return ROMAN_TO_ARABIC_MAP.get(romanDigit);
     }
 
-    static boolean isAcceptedArabicNumber(String number) throws Exception{
-        if (number.matches(ARAB_NUMBERS_REGEX)) {
+    static boolean isAcceptedArabicNumber(String number) {
+        if (number.matches(ARABIC_NUMBERS_REGEX)) {
             int numberValue = Integer.parseInt(number);
             return numberValue >= 1 && numberValue <= 10;
         }
-        throw new Exception("Number is out of range");
+        return false;
     }
 
     static String getResultOfMathOperation(String value1, String value2, String mathOperation) throws Exception{
